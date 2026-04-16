@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import './homepage.dart';
+import '../pages/rebochat.dart';
+import '../pages/voicetalk.dart';
+
+class NavItem {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  NavItem({required this.icon, required this.label, required this.onTap});
+}
 
 class Nav extends StatefulWidget {
-  const Nav({super.key});
+  final bool isBottomNav;
+  final Function(Widget) onNavigate;
+
+  const Nav({super.key, this.isBottomNav = false, required this.onNavigate});
 
   @override
   State<Nav> createState() => _NavState();
@@ -10,114 +24,50 @@ class Nav extends StatefulWidget {
 
 class _NavState extends State<Nav> {
   bool _isHovered = false;
-  bool _isMenuOpen = false;
+
+  List<NavItem> get _navItems => [
+    NavItem(
+      icon: FontAwesomeIcons.house,
+      label: 'Home',
+      onTap: () => widget.onNavigate(const Homepage()),
+    ),
+    NavItem(
+      icon: FontAwesomeIcons.message,
+      label: 'Chat',
+      onTap: () => widget.onNavigate(const ReboChat()),
+    ),
+    NavItem(
+      icon: FontAwesomeIcons.microphone,
+      label: 'Talk',
+      onTap: () => widget.onNavigate(const VoiceTalk()),
+    ),
+    NavItem(
+      icon: FontAwesomeIcons.chartLine,
+      label: 'Analytics',
+      onTap: () => print('Analytics tapped'),
+    ),
+    NavItem(
+      icon: FontAwesomeIcons.dollarSign,
+      label: 'Pricing',
+      onTap: () => print('Pricing tapped'),
+    ),
+    NavItem(
+      icon: FontAwesomeIcons.users,
+      label: 'Community',
+      onTap: () => print('Community tapped'),
+    ),
+    NavItem(
+      icon: FontAwesomeIcons.circleInfo,
+      label: 'About',
+      onTap: () => print('About tapped'),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isSmallScreen = screenWidth < 768;
-
-    if (isSmallScreen) {
-      return Stack(
-        children: [
-          // Menu icon button
-          Positioned(
-            top: 16,
-            left: 16,
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 32, 32, 32),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: IconButton(
-                icon: const FaIcon(
-                  FontAwesomeIcons.bars,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                onPressed: () => setState(() => _isMenuOpen = true),
-              ),
-            ),
-          ),
-          // Fullscreen overlay
-          if (_isMenuOpen) ...[
-            GestureDetector(
-              onTap: () => setState(() => _isMenuOpen = false),
-              child: Container(
-                color: Colors.black54,
-                child: Container(
-                  width: 250,
-                  height: double.infinity,
-                  color: const Color.fromARGB(255, 32, 32, 32),
-                  child: Column(
-                    children: [
-                      // Close button
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              icon: const FaIcon(
-                                FontAwesomeIcons.xmark,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                              onPressed: () =>
-                                  setState(() => _isMenuOpen = false),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Nav items
-                      _buildNavItem(FontAwesomeIcons.house, 'Home', () {
-                        setState(() => _isMenuOpen = false);
-                        print('Home tapped');
-                      }),
-                      _buildNavItem(
-                        FontAwesomeIcons.graduationCap,
-                        'Practice',
-                        () {
-                          setState(() => _isMenuOpen = false);
-                          print('Practice tapped');
-                        },
-                      ),
-                      _buildNavItem(
-                        FontAwesomeIcons.chartLine,
-                        'Analysistic',
-                        () {
-                          setState(() => _isMenuOpen = false);
-                          print('Analysistic tapped');
-                        },
-                      ),
-                      _buildNavItem(
-                        FontAwesomeIcons.dollarSign,
-                        '  Pricing',
-                        () {
-                          setState(() => _isMenuOpen = false);
-                          print('Pricing tapped');
-                        },
-                      ),
-                      _buildNavItem(FontAwesomeIcons.users, 'Community', () {
-                        setState(() => _isMenuOpen = false);
-                        print('Community tapped');
-                      }),
-                      _buildNavItem(FontAwesomeIcons.circleInfo, 'About', () {
-                        setState(() => _isMenuOpen = false);
-                        print('About tapped');
-                      }),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ],
-      );
+    if (widget.isBottomNav) {
+      return _buildBottomNavigationBar();
     }
-
     // Desktop navbar
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -128,37 +78,17 @@ class _NavState extends State<Nav> {
         color: const Color.fromARGB(255, 32, 32, 32),
         child: Column(
           children: [
-            _buildNavItem(
-              FontAwesomeIcons.house,
-              'Home',
-              () => print('Home tapped'),
-            ),
-            _buildNavItem(
-              FontAwesomeIcons.graduationCap,
-              'Practice',
-              () => print('Practice tapped'),
-            ),
-            _buildNavItem(
-              FontAwesomeIcons.chartLine,
-              'Analysistic',
-              () => print('Analysistic tapped'),
-            ),
-            _buildNavItem(
-              FontAwesomeIcons.dollarSign,
-              'Pricing',
-              () => print('Pricing tapped'),
-            ),
+            ..._navItems
+                .take(4)
+                .map(
+                  (item) => _buildNavItem(item.icon, item.label, item.onTap),
+                ),
             const Spacer(),
-            _buildNavItem(
-              FontAwesomeIcons.users,
-              'Community',
-              () => print('Community tapped'),
-            ),
-            _buildNavItem(
-              FontAwesomeIcons.circleInfo,
-              'About',
-              () => print('About tapped'),
-            ),
+            ..._navItems
+                .skip(4)
+                .map(
+                  (item) => _buildNavItem(item.icon, item.label, item.onTap),
+                ),
           ],
         ),
       ),
@@ -187,6 +117,50 @@ class _NavState extends State<Nav> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return Container(
+      height: 70,
+      color: const Color.fromARGB(255, 32, 32, 32),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: _navItems
+            .take(4)
+            .map(
+              (item) => _buildBottomNavItem(item.icon, item.label, item.onTap),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _buildBottomNavItem(IconData icon, String label, VoidCallback onTap) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FaIcon(icon, color: Colors.white, size: 20),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );

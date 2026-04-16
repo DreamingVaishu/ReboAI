@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Homepage extends StatelessWidget {
-  const Homepage({super.key});
+class VoiceTalk extends StatelessWidget {
+  const VoiceTalk({super.key});
 
   @override
   Widget build(BuildContext home) {
@@ -55,8 +55,8 @@ class Homepage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Text(
-                  'hello there i\'m rebo your friendly coach , i will guide you in your understanding in any field or language or prepare you for interview',
-                  style: const TextStyle(
+                  'voice',
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     height: 1.5,
