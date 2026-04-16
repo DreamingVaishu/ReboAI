@@ -5,7 +5,6 @@ A modern AI-powered chat application built with Flutter frontend and FastAPI bac
 ## 🚀 Features
 
 - **Real-time Chat**: Interactive messaging interface with instant responses
-- **Animated Processing**: Beautiful 4-dot animation during AI processing
 - **Modern UI**: Clean, responsive design with gradient backgrounds
 - **Cross-platform**: Works on Windows, Web (Chrome/Edge), and mobile devices
 - **FastAPI Backend**: High-performance Python backend with OpenAI integration
