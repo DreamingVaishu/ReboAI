@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color.fromARGB(255, 32, 32, 32),
       ),
       home: Scaffold(
-        body: Column(
+        body: Row(
           children: [
             Nav(),
             Expanded(child: Homepage()),
