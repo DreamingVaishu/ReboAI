@@ -14,14 +14,14 @@ class ReboChat extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       alignment: Alignment.center,
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(0),
       // margin: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Top bar with ReBoAI and Hello User
           Container(
-            padding: const EdgeInsets.all(2),
+            padding: const EdgeInsets.all(12),
             child: Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -46,24 +46,35 @@ class ReboChat extends StatelessWidget {
           ),
           // Welcome message
           Expanded(
-            child: Center(
-              child: Container(
-                width: 200,
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.7),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Text(
-                  'Chat with Rebo AI',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    height: 1.5,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      // margin: const EdgeInsets.symmetric(horizontal: 16),
+                      borderRadius: BorderRadius.circular(16),
+                      color: const Color.fromARGB(255, 69, 69, 69),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Ask me anything...',
+                        hintStyle: TextStyle(color: Colors.white70),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.send, color: Colors.white),
+                          onPressed: () {
+                            // Add your send functionality here
+                          },
+                        ),
+                      ),
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
+              ],
             ),
           ),
         ],
